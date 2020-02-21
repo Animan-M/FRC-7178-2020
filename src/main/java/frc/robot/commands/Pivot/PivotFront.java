@@ -8,42 +8,26 @@
 package frc.robot.commands.Pivot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Shoot;
+import frc.robot.subsystems.Pivot;
 
-public class teleopPivotBack extends CommandBase {
-  /**
-   * Creates a new teleopPivotBack.
- * @param m_Shoot
-   */
-  public teleopPivotBack(Shoot m_Shoot) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Shoot);
+public class PivotFront extends CommandBase {
+  
+  private final Pivot m_Pivot;
+
+  public PivotFront(Pivot subsystem) {
+    m_Pivot = subsystem;
+    addRequirements(m_Pivot);
   }
 
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if(RobotContainer.controller1.getRawButton(11) == true) {
-      Shoot.m_shootMove.set(-1);
-    } else {
-      Shoot.m_shootMove.set(0);
-    }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    m_Pivot.pivotFront();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

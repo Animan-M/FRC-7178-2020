@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -19,36 +20,33 @@ public class Shoot extends SubsystemBase {
    */
   public static WPI_TalonSRX m_topShoot;
   public static WPI_TalonSRX m_bottomShoot;
-  public static WPI_TalonSRX m_shootMove;
   public static Solenoid m_ballPush;
 
   public Shoot() {
     m_topShoot = new WPI_TalonSRX(8);
     m_bottomShoot = new WPI_TalonSRX(7);
-    m_shootMove = new WPI_TalonSRX(11);
+    
     m_ballPush = new Solenoid(19, 0); //can id, pcm channel
 
     m_topShoot.setNeutralMode(NeutralMode.Coast);
     m_bottomShoot.setNeutralMode(NeutralMode.Coast);
   }
 
-  public void initDefaultCommand() {
-
+  public void Shooter() {
+    m_topShoot.set(ControlMode.PercentOutput, 1);
+    m_bottomShoot.set(ControlMode.PercentOutput, 1);
   }
 
-  @Override
-  public void periodic() {
-    if(RobotContainer.controller1.getRawButton(3) == true) {
-      Shoot.m_topShoot.set(100);
-      Shoot.m_bottomShoot.set(-100);
-    } else if(RobotContainer.controller1.getRawButton(4) == true) {
-      Shoot.m_ballPush.set(true);
-      Shoot.m_topShoot.set(100);
-      Shoot.m_bottomShoot.set(-100);
-    } else {
-      Shoot.m_topShoot.set(0);
-      Shoot.m_bottomShoot.set(0);
-      Shoot.m_ballPush.set(false);
-    }
+  public void stopShooter() {
+    m_topShoot.set(ControlMode.PercentOutput, 0);
+    m_bottomShoot.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void ballPushIn() {
+    m_ballPush.set(true);
+  }
+
+  public void ballPushOut() {
+    m_ballPush.set(false);
   }
 }

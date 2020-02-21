@@ -12,26 +12,26 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class WheelOfFortune extends SubsystemBase {
+public class Arm extends SubsystemBase {
   /**
-   * Creates a new WheelOfFortune.
+   * Creates a new Arm.
    */
-  public static WPI_TalonSRX m_spinner;
+ 
+  public static WPI_TalonSRX m_armMove;
 
-  public WheelOfFortune() {
-    m_spinner = new WPI_TalonSRX(12);
+  public Arm() {
+    m_armMove = new WPI_TalonSRX(15);
   }
 
-  public void forwardSpin() {
-    m_spinner.set(ControlMode.PercentOutput, 0.5);
+  public void LiftArmUp() {
+    m_armMove.set(ControlMode.PercentOutput, 0.1);
   }
 
-  public void backwardSpin() {
-    m_spinner.set(ControlMode.PercentOutput, -0.5);
+  public void WOFArmUp() {
+    m_armMove.set(ControlMode.PercentOutput, 0.1);
   }
 
-  public void stopSpin() {
-    m_spinner.set(ControlMode.PercentOutput, 0);
+  public void ArmDown() {
+    m_armMove.set(ControlMode.PercentOutput, -0.1);
   }
-
 }

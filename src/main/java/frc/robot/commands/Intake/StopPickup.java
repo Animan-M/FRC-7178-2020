@@ -6,41 +6,28 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.Intake;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.BallMover;
 import frc.robot.subsystems.BallPickup;
 
-public class teleopBallUp extends CommandBase {
-  /**
-   * Creates a new teleopBallPickup.
- * @param m_ballPickup
-   */
-  public teleopBallUp(BallPickup m_ballPickup) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_ballPickup);
+public class StopPickup extends CommandBase {
+
+  private final BallPickup m_BallPickup;
+
+  public StopPickup(BallPickup subsystem) {
+    m_BallPickup = subsystem;
+    addRequirements(m_BallPickup);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    RobotContainer.m_ballPickup.periodic();
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    m_BallPickup.ballStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -12,26 +12,28 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class WheelOfFortune extends SubsystemBase {
-  /**
-   * Creates a new WheelOfFortune.
-   */
-  public static WPI_TalonSRX m_spinner;
-
-  public WheelOfFortune() {
-    m_spinner = new WPI_TalonSRX(12);
+public class Pivot extends SubsystemBase {
+  
+  public static WPI_TalonSRX m_shootMove;
+  
+  public Pivot() {
+    m_shootMove = new WPI_TalonSRX(11);
   }
 
-  public void forwardSpin() {
-    m_spinner.set(ControlMode.PercentOutput, 0.5);
+  public void pivotFront() {
+    m_shootMove.set(ControlMode.PercentOutput, 0.2);
   }
 
-  public void backwardSpin() {
-    m_spinner.set(ControlMode.PercentOutput, -0.5);
+  public void pivotBack() {
+    m_shootMove.set(ControlMode.PercentOutput, -0.2);
   }
 
-  public void stopSpin() {
-    m_spinner.set(ControlMode.PercentOutput, 0);
+  public void stopPivot() {
+    m_shootMove.set(ControlMode.PercentOutput, 0);
   }
-
+  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 }

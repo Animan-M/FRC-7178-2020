@@ -5,35 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.WheelOfFortune;
+package frc.robot.commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.WheelOfFortune;
+import frc.robot.subsystems.Shoot;
 
-public class teleopWheelForward extends CommandBase {
-  /**
-   * Creates a new teleopWheelForward.
- * @param m_wheelOfFortune
-   */
-  public teleopWheelForward(WheelOfFortune m_wheelOfFortune) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_wheelOfFortune);
+public class BallPushOut extends CommandBase {
+  
+  private final Shoot m_Shoot;
+  public BallPushOut(Shoot subsystem) {
+    m_Shoot = subsystem;
+    addRequirements(m_Shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_Shoot.ballPushOut();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.controller1.getRawButton(12) == true) {
-      WheelOfFortune.m_spinner.set(30);
-    } else {
-      WheelOfFortune.m_spinner.set(0);
-    }
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +37,6 @@ public class teleopWheelForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

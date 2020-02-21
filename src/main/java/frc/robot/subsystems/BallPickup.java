@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class BallPickup extends SubsystemBase {
@@ -34,14 +35,20 @@ public class BallPickup extends SubsystemBase {
 
   }
 
-  @Override
-  public void periodic() {
-    if(RobotContainer.controller1.getRawButton(8) == true) {
-      BallPickup.m_back.set(30);
-      
-    } else {
-      BallPickup.m_back.set(0);
-      
-    }
+  public void ballUp() {
+    m_back.set(ControlMode.PercentOutput, .3);
   }
+
+  public void ballStop() {
+    m_back.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void deployPickup() {
+    m_pushOut.set(true);
+  }
+
+  public void retractPickup() {
+    m_pushOut.set(false);
+  }
+
 }

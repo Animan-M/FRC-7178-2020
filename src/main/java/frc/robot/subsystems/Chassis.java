@@ -80,9 +80,9 @@ public class Chassis extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    forwards = driveDif*RobotContainer.controller1.getRawAxis(3);
-    backwards = -driveDif*RobotContainer.controller1.getRawAxis(2);
-    turn = turnDif*RobotContainer.controller1.getRawAxis(0);
+    forwards = driveDif*RobotContainer.m_driver.getRawAxis(3);
+    backwards = -driveDif*RobotContainer.m_driver.getRawAxis(2);
+    turn = turnDif*RobotContainer.m_driver.getRawAxis(0);
 
     // m_driveType.tankDrive(RobotContainer.controller1.getRawAxis(5), RobotContainer.controller1.getRawAxis(1));
 

@@ -8,40 +8,27 @@
 package frc.robot.commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shoot;
 
-public class teleopShoot extends CommandBase {
-  /**
-   * Creates a new teleopShoot.
- * @param m_Shoot
-   */
-  public teleopShoot(Shoot m_Shoot) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Shoot);
+public class Shooter extends CommandBase {
+  
+  private final Shoot m_Shoot;
+
+  public Shooter(Shoot subsystem) {
+    m_Shoot = subsystem;
+    addRequirements(m_Shoot);
   }
 
 
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Shoot.m_ballPush.set(false); //true = on, false = off
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    RobotContainer.m_Shoot.periodic();
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(final boolean interrupted) {
+    m_Shoot.Shooter();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

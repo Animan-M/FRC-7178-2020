@@ -8,39 +8,26 @@
 package frc.robot.commands.BallMove;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.BallMover;
 
-public class teleopBallBackward extends CommandBase {
-  /**
-   * Creates a new teleopBallBackward.
-   */
+public class BallStop extends CommandBase {
   
-  public teleopBallBackward(BallMover m_ballMover) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_ballMover);
+  private final BallMover m_ballMover;
+
+  public BallStop(BallMover subsystem) {
+    m_ballMover = subsystem;
+    addRequirements(m_ballMover);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    m_ballMover.ballStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

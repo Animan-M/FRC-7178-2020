@@ -24,30 +24,20 @@ public class BallMover extends SubsystemBase {
     m_middle = new WPI_TalonSRX(10);
     m_front = new WPI_TalonSRX(6);
   }
-
-  public void initDefaultCommand() {
-    
+  
+  public void ballForward() {
+    m_middle.set(ControlMode.PercentOutput, -.3); //negative since upside down
+    m_front.set(ControlMode.PercentOutput, .2);
   }
 
-  public void moveBall(){
-    // if(RobotContainer.controller1.getRawButton(9) == true){
-    //   BallMover.m_front.set(30);
-    //   BallMover.m_middle.set(-20);
-    // } else {
-    //   BallMover.m_front.set(0);
-    //   BallMover.m_middle.set(0);
-    // }
-
+  public void ballBackward() {
+    m_middle.set(ControlMode.PercentOutput, .3);
+    m_front.set(ControlMode.PercentOutput, -0.2);
   }
 
-  @Override
-  public void periodic() {
-    if(RobotContainer.controller1.getRawButton(9) == true){
-      BallMover.m_front.set(ControlMode.PercentOutput, .3);
-      BallMover.m_middle.set(ControlMode.PercentOutput, -.20);
-    } else {
-      BallMover.m_front.set(ControlMode.PercentOutput, 0);
-      BallMover.m_middle.set(ControlMode.PercentOutput, 0);
-    }
+  public void ballStop() {
+    m_middle.set(ControlMode.PercentOutput, 0);
+    m_front.set(ControlMode.PercentOutput, 0);
   }
+
 }

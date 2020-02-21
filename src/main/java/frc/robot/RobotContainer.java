@@ -9,18 +9,31 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.*;
-import frc.robot.commands.Arm.*;
-import frc.robot.commands.BallMove.*;
+import frc.robot.commands.BallMove.BallBackward;
+import frc.robot.commands.BallMove.BallForward;
+import frc.robot.commands.BallMove.BallStop;
 import frc.robot.commands.Drive.*;
-import frc.robot.commands.Intake.teleopBallOut;
-import frc.robot.commands.Intake.teleopBallUp;
-import frc.robot.commands.Lift.*;
-import frc.robot.commands.Pivot.*;
-import frc.robot.commands.Shoot.*;
-import frc.robot.commands.WheelOfFortune.*;
+import frc.robot.commands.Intake.BallUp;
+import frc.robot.commands.Intake.StopPickup;
+import frc.robot.commands.Lift.LiftDown;
+import frc.robot.commands.Lift.LiftUp;
+import frc.robot.commands.Lift.StopLift;
+import frc.robot.commands.Pivot.PivotBack;
+import frc.robot.commands.Pivot.PivotFront;
+import frc.robot.commands.Pivot.StopPivot;
+import frc.robot.commands.Shoot.BallPushIn;
+import frc.robot.commands.Shoot.BallPushOut;
+import frc.robot.commands.Shoot.Shooter;
+import frc.robot.commands.Shoot.StopShooter;
+import frc.robot.commands.WOF.BackwardSpin;
+import frc.robot.commands.WOF.ForwardSpin;
+import frc.robot.commands.WOF.StopSpin;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -37,31 +50,16 @@ public class RobotContainer {
   public static Chassis m_chassis = new Chassis();
   public static teleopDrive m_teleopDrive = new teleopDrive(m_chassis);
 
-  public static Lift m_lift = new Lift();
-  public static teleopLiftUp m_teleopLiftUp = new teleopLiftUp(m_lift);
-  public static teleopLiftDown m_teleopLiftDown = new teleopLiftDown(m_lift);
-  public static teleopArmUp m_armUpward = new teleopArmUp(m_lift);
-  public static teleopArmDown m_armDownward = new teleopArmDown(m_lift);
-
+  public static Arm m_Arm = new Arm();
   public static BallMover m_ballMover = new BallMover();
-  public static teleopBallForward m_BallForward = new teleopBallForward(m_ballMover);
-  public static teleopBallBackward m_BallBackward = new teleopBallBackward(m_ballMover);
-  
-  public static Shoot m_Shoot = new Shoot();
-  public static teleopShoot m_teleopShoot = new teleopShoot(m_Shoot);
-  public static teleopPivotFront m_teleopPivotFront = new teleopPivotFront(m_Shoot);
-  public static teleopPivotBack m_teleopPivotBack = new teleopPivotBack(m_Shoot);
-  
   public static BallPickup m_ballPickup = new BallPickup();
-  public static teleopBallUp m_teleopBallUp = new teleopBallUp(m_ballPickup);
-  public static teleopBallOut m_teleopBallOut = new teleopBallOut(m_ballPickup);
+  public static Lift m_lift = new Lift();
+  public static Shoot m_Shoot = new Shoot();  
+  public static Pivot m_Pivot = new Pivot();
+  public static WheelOfFortune m_WOF = new WheelOfFortune();
 
-  public static WheelOfFortune m_wheelOfFortune = new WheelOfFortune();
-  public static teleopWheelForward m_wheelForward = new teleopWheelForward(m_wheelOfFortune);
-  public static teleopWheelBack m_wheelBack = new teleopWheelBack(m_wheelOfFortune);
-
-  public static XboxController controller1 = new XboxController(0);
-  public static XboxController controller2 = new XboxController(1);
+  public static XboxController m_driver = new XboxController(0);
+  public static XboxController m_operator = new XboxController(1);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -78,7 +76,57 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //Driver
+    //A button
+    new JoystickButton(m_driver, Button.kA.value) //Move balls in
+    .whenPressed(new BallForward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+
+    //B Button
+    new JoystickButton(m_driver, Button.kB.value) //move balls back
+    .whenPressed(new BallBackward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+
+    //X Button
+    new JoystickButton(m_driver, Button.kX.value) //lift pull up
+    .whenPressed(new LiftUp(m_lift))
+    .whenReleased(new StopLift(m_lift));
     
+    //Y button
+    new JoystickButton(m_driver, Button.kY.value) //lift release down
+    .whenPressed(new LiftDown(m_lift))
+    .whenReleased(new StopLift(m_lift));
+
+
+    //Operator
+    //B Button
+    new JoystickButton(m_operator, Button.kB.value) //ball intake
+    .whenPressed(new BallUp(m_ballPickup))
+    .whenReleased(new StopPickup(m_ballPickup));
+
+    //X button
+    new JoystickButton(m_operator, Button.kX.value) // shooter
+    .whenPressed(new SequentialCommandGroup(new Shooter(m_Shoot), new BallPushIn(m_Shoot)))
+    .whenReleased(new SequentialCommandGroup(new StopShooter(m_Shoot), new BallPushOut(m_Shoot)));
+
+    //Left Bumper
+    new JoystickButton(m_operator, Button.kBumperLeft.value) //pivot cannon front
+    .whenPressed(new PivotFront(m_Pivot))
+    .whenReleased(new StopPivot(m_Pivot));
+
+    //Right bumper
+    new JoystickButton(m_operator, Button.kBumperRight.value) //pivot cannon back
+    .whenPressed(new PivotBack(m_Pivot))
+    .whenReleased(new StopPivot(m_Pivot));
+    
+    //Start button
+    new JoystickButton(m_operator, Button.kStart.value) //spin wof wheel
+    .whenPressed(new ForwardSpin(m_WOF))
+    .whenReleased(new StopSpin(m_WOF));
+
+    new JoystickButton(m_operator, Button.kBack.value) //reverse wof wheel
+    .whenPressed(new BackwardSpin(m_WOF))
+    .whenReleased(new StopSpin(m_WOF));
   }
 
 

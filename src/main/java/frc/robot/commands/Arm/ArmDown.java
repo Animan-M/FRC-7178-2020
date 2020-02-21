@@ -8,42 +8,25 @@
 package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Arm;
 
-public class teleopArmUp extends CommandBase {
-  /**
-   * Creates a new teleopArmUp.
- * @param m_lift
-   */
-  public teleopArmUp(Lift m_lift) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_lift);
+public class ArmDown extends CommandBase {
+  
+  private final Arm m_Arm;
+  public ArmDown(Arm subsystem) {
+    m_Arm = subsystem;
+    addRequirements(m_Arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if(RobotContainer.controller1.getRawButton(10) == true) {
-      Lift.m_armMove.set(20);
-    } else {
-      Lift.m_armMove.set(0);
-    }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    m_Arm.ArmDown();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
