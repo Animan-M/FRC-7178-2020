@@ -5,35 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.WheelOfFortune;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.WheelOfFortune;
 
-public class teleopLiftUp extends CommandBase {
+public class teleopWheelForward extends CommandBase {
   /**
-   * Creates a new teleopLiftUp.
+   * Creates a new teleopWheelForward.
+ * @param m_wheelOfFortune
    */
-  public teleopLiftUp() {
+  public teleopWheelForward(WheelOfFortune m_wheelOfFortune) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_lift);
-  }
-
-  public teleopLiftUp(Lift m_lift) {
-    
+    addRequirements(RobotContainer.m_wheelOfFortune);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_lift.liftSetUp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_lift.periodic();
+    if(RobotContainer.controller1.getRawButton(12) == true) {
+      WheelOfFortune.m_spinner.set(30);
+    } else {
+      WheelOfFortune.m_spinner.set(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

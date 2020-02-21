@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.commands.teleopDrive;
+import frc.robot.commands.Drive.teleopDrive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -56,7 +56,7 @@ public class Chassis extends SubsystemBase {
     m_leftMotors = new SpeedControllerGroup(m_frontLeft, m_backLeft);
     m_rightMotors  = new SpeedControllerGroup(m_frontRight, m_backRight);
 
-    m_driveType  = new DifferentialDrive(m_leftMotors, m_rightMotors);
+    m_driveType = new DifferentialDrive(m_leftMotors, m_rightMotors);
   }
   
   public void initDefaultCommand() {
@@ -72,11 +72,8 @@ public class Chassis extends SubsystemBase {
     m_backRight.follow(m_frontRight);
     m_backLeft.follow(m_frontLeft);
 
-    // m_arcadeDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-
-
-    driveDif = 0.30;
-    turnDif = 0.25;
+    driveDif = 0.80;
+    turnDif = 0.45;
   }
 
   
@@ -87,9 +84,8 @@ public class Chassis extends SubsystemBase {
     backwards = -driveDif*RobotContainer.controller1.getRawAxis(2);
     turn = turnDif*RobotContainer.controller1.getRawAxis(0);
 
-    m_driveType.tankDrive(-RobotContainer.controller1.getRawAxis(1),- RobotContainer.controller1.getRawAxis(5));
+    // m_driveType.tankDrive(RobotContainer.controller1.getRawAxis(5), RobotContainer.controller1.getRawAxis(1));
 
-    /*
     if(forwards > 0) {
       move = forwards;
     } else if (backwards < 0) {
@@ -99,12 +95,15 @@ public class Chassis extends SubsystemBase {
     }
 
     m_driveType.arcadeDrive(move, turn);
-    */
-
+    
     SmartDashboard.putNumber("Front Right NEO", m_frontRight.getOutputCurrent());
     SmartDashboard.putNumber("Front Left NEO", m_frontLeft.getOutputCurrent());
     SmartDashboard.putNumber("Back Left NEO", m_backLeft.getOutputCurrent());
     SmartDashboard.putNumber("Back Right NEO", m_backRight.getOutputCurrent());
+    
+    SmartDashboard.putNumber("Forward", forwards);
+    SmartDashboard.putNumber("Move", move);
+
   }
   
 }

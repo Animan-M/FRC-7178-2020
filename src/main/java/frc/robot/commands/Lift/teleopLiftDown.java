@@ -5,34 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Lift;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Lift;
 
-public class teleopDrive extends CommandBase {
+public class teleopLiftDown extends CommandBase {
   /**
-   * Creates a new teleopDrive.
+   * Creates a new teleopLiftDown.
+ * @param m_lift
    */
-  public teleopDrive() {
+  public teleopLiftDown(Lift m_lift) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_chassis);
+    addRequirements(RobotContainer.m_lift);
   }
 
-  public teleopDrive(Chassis m_chassis) {
-  }
-
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_chassis.ChassisSetup();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_chassis.periodic();
+    if(RobotContainer.controller1.getRawButton(2) == true) {
+      Lift.m_leftLift.set(-50);
+      Lift.m_rightLift.set(-50);
+    } else {
+      Lift.m_leftLift.set(0);
+      Lift.m_rightLift.set(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

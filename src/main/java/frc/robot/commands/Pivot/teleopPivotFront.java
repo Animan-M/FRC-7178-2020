@@ -1,30 +1,29 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Pivot;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shoot;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class ExampleCommand extends CommandBase {
+public class teleopPivotFront extends CommandBase {
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Creates a new teleopPivotFront.
+ * @param m_Shoot
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
+  public teleopPivotFront(Shoot m_Shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(RobotContainer.m_Shoot);
   }
 
-  // Called when the command is initially scheduled.
+  
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
@@ -32,6 +31,11 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(RobotContainer.controller1.getRawButton(14) == true) {
+      Shoot.m_shootMove.set(1);
+    } else {
+      Shoot.m_shootMove.set(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

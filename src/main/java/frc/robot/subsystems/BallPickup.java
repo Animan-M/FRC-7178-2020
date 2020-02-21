@@ -6,32 +6,42 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class Lift extends SubsystemBase {
+public class BallPickup extends SubsystemBase {
   /**
-   * Creates a new Lift.
+   * Creates a new BallPickup.
    */
+  public static WPI_TalonSRX m_pickup;
+  public static WPI_TalonSRX m_back;
+  public static Solenoid m_pushOut;
+  public static Compressor m_AirCompressor;
 
-  public static WPI_TalonSRX m_leftLift;
-  public static WPI_TalonSRX m_rightLift;
-  public static WPI_TalonSRX m_armMove;
-
-  public Lift() {
-    m_leftLift = new WPI_TalonSRX(14);
-    m_rightLift = new WPI_TalonSRX(13);
-    m_armMove = new WPI_TalonSRX(15);
+  public BallPickup() {
+    m_back = new WPI_TalonSRX(9);
+    m_pickup = new WPI_TalonSRX(5);
+    m_AirCompressor = new Compressor(19);
+    m_pushOut = new Solenoid(19, 2); //can id, pcm channel 
   }
 
   public void initDefaultCommand() {
-    // setDefaultCommand(new teleopLiftUp());
+
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    
+    if(RobotContainer.controller1.getRawButton(8) == true) {
+      BallPickup.m_back.set(30);
+      
+    } else {
+      BallPickup.m_back.set(0);
+      
+    }
   }
 }

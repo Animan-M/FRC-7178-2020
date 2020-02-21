@@ -1,27 +1,24 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Arm;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Lift;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class ExampleCommand extends CommandBase {
+public class teleopArmUp extends CommandBase {
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Creates a new teleopArmUp.
+ * @param m_lift
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
+  public teleopArmUp(Lift m_lift) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(RobotContainer.m_lift);
   }
 
   // Called when the command is initially scheduled.
@@ -32,6 +29,11 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(RobotContainer.controller1.getRawButton(10) == true) {
+      Lift.m_armMove.set(20);
+    } else {
+      Lift.m_armMove.set(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
