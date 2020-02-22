@@ -26,8 +26,8 @@ public class BallMover extends SubsystemBase {
   }
   
   public void ballForward() {
-    m_middle.set(ControlMode.PercentOutput, -.3); //negative since upside down
-    m_front.set(ControlMode.PercentOutput, .2);
+    m_middle.set(ControlMode.PercentOutput, -.5); //negative since upside down
+    m_front.set(ControlMode.PercentOutput, .5);
   }
 
   public void ballBackward() {

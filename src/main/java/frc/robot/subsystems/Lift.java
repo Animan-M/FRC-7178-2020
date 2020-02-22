@@ -21,7 +21,7 @@ public class Lift extends SubsystemBase {
 
   public Lift() {
     m_leftLift = new WPI_TalonSRX(14);
-    m_rightLift = new WPI_TalonSRX(13);
+    m_rightLift = new WPI_TalonSRX(12);
   }
 
   public void LiftUp() {

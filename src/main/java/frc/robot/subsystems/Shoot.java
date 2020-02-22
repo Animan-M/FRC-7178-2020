@@ -34,7 +34,7 @@ public class Shoot extends SubsystemBase {
 
   public void Shooter() {
     m_topShoot.set(ControlMode.PercentOutput, 1);
-    m_bottomShoot.set(ControlMode.PercentOutput, 1);
+    m_bottomShoot.set(ControlMode.PercentOutput, -1);
   }
 
   public void stopShooter() {

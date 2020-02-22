@@ -19,7 +19,7 @@ public class WheelOfFortune extends SubsystemBase {
   public static WPI_TalonSRX m_spinner;
 
   public WheelOfFortune() {
-    m_spinner = new WPI_TalonSRX(12);
+    m_spinner = new WPI_TalonSRX(13);
   }
 
   public void forwardSpin() {

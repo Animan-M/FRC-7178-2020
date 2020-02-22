@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Pivot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pivot;
 
@@ -22,12 +23,18 @@ public class PivotFront extends CommandBase {
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Pivot.pivotFront();
+    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5250) {
+      m_Pivot.pivotFront();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5250) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

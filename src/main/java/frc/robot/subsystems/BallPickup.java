@@ -28,7 +28,8 @@ public class BallPickup extends SubsystemBase {
     m_back = new WPI_TalonSRX(9);
     m_pickup = new WPI_TalonSRX(5);
     m_AirCompressor = new Compressor(19);
-    m_pushOut = new Solenoid(19, 2); //can id, pcm channel 
+
+    m_pushOut = new Solenoid(19, 1); //can id, pcm channel 
   }
 
   public void initDefaultCommand() {
@@ -36,11 +37,13 @@ public class BallPickup extends SubsystemBase {
   }
 
   public void ballUp() {
-    m_back.set(ControlMode.PercentOutput, .3);
+    m_back.set(ControlMode.PercentOutput, 1);
+    m_pickup.set(ControlMode.PercentOutput, .7);
   }
 
   public void ballStop() {
     m_back.set(ControlMode.PercentOutput, 0);
+    m_pickup.set(ControlMode.PercentOutput, 0);
   }
 
   public void deployPickup() {

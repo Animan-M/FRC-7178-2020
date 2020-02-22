@@ -7,42 +7,28 @@
 
 package frc.robot.commands.Drive;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Chassis;
 
-public class teleopDrive extends CommandBase {
-  /**
-   * Creates a new teleopDrive.
-   */
-  public teleopDrive() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_chassis);
-  }
+public class DefaultDrive extends CommandBase {
 
-  public teleopDrive(Chassis m_chassis) {
-  }
+  private final Chassis m_chassis;
+  private final DoubleSupplier m_forward;
+  private final DoubleSupplier m_turn;
 
-// Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    RobotContainer.m_chassis.ChassisSetup();
-  }
+  public DefaultDrive(Chassis subsystem, DoubleSupplier forward, DoubleSupplier turn) {
+    m_chassis = subsystem;
+    m_forward = forward;
+    m_turn = turn;
+    addRequirements(m_chassis);
+   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
+    m_chassis.arcadeDrive(m_forward.getAsDouble()/-1.05, m_turn.getAsDouble()/1.05);
   }
 }
