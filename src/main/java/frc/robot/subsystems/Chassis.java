@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -59,16 +58,8 @@ public class Chassis extends SubsystemBase {
   }
 
   public void ChassisSetup() {
-    // m_frontLeft.setSmartCurrentLimit(30);
-    // m_frontRight.setSmartCurrentLimit(30);
-    // m_backLeft.setSmartCurrentLimit(30);
-    // m_backRight.setSmartCurrentLimit(30);
-
     m_backRight.follow(m_frontRight);
     m_backLeft.follow(m_frontLeft);
-
-    driveDif = 1.05;
-    turnDif = 0.85;
   }
 
   public void arcadeDrive(double forward, double turn) {
@@ -78,33 +69,11 @@ public class Chassis extends SubsystemBase {
   
   @Override
   public void periodic() {
-    /*
     // This method will be called once per scheduler run
-    forwards = driveDif*RobotContainer.m_driver.getRawAxis(3);
-    backwards = -driveDif*RobotContainer.m_driver.getRawAxis(2);
-    turn = turnDif*RobotContainer.m_driver.getRawAxis(0);
-
-    // m_driveType.tankDrive(RobotContainer.controller1.getRawAxis(5), RobotContainer.controller1.getRawAxis(1));
-
-    if(forwards > 0) {
-      move = forwards;
-    } else if (backwards < 0) {
-      move = backwards;
-    } else {
-      move = 0;
-    }
-
-    m_driveType.arcadeDrive(move, turn);
-    */
-
     SmartDashboard.putNumber("Front Right NEO", m_frontRight.getOutputCurrent());
     SmartDashboard.putNumber("Front Left NEO", m_frontLeft.getOutputCurrent());
     SmartDashboard.putNumber("Back Left NEO", m_backLeft.getOutputCurrent());
     SmartDashboard.putNumber("Back Right NEO", m_backRight.getOutputCurrent());
-    
-    SmartDashboard.putNumber("Forward", forwards);
-    SmartDashboard.putNumber("Move", move);
-
   }
   
 }

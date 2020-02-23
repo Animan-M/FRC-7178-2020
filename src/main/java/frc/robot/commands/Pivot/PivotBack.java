@@ -28,7 +28,7 @@ public class PivotBack extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if( m_Pivot.m_shootMove.getSelectedSensorPosition() > 0) {
+    if( Pivot.m_shootMove.getSelectedSensorPosition() > 0) {
       return false;
     } else {
       return true;
