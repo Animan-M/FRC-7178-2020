@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.*;
+import frc.robot.commands.Arm.LiftArmUp;
+import frc.robot.commands.Arm.ArmDown;
+import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.BallMove.BallBackward;
 import frc.robot.commands.BallMove.BallForward;
 import frc.robot.commands.BallMove.BallStop;
@@ -66,7 +69,7 @@ public class RobotContainer {
 
     m_chassis.setDefaultCommand(
       new DefaultDrive(m_chassis, 
-      () -> m_driver.getY(GenericHID.Hand.kLeft), 
+      () -> m_driver.getY(GenericHID.Hand.kLeft) * -1, 
       () -> m_driver.getX(GenericHID.Hand.kRight)));
   }
 
@@ -77,16 +80,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //Driver
-    //A button
-    new JoystickButton(m_operator, Button.kBumperLeft.value) //Move balls in
-    .whenPressed(new BallForward(m_ballMover))
-    .whenReleased(new BallStop(m_ballMover));
-
-    //B Button
-    new JoystickButton(m_operator, Button.kB.value) //move balls back
-    .whenPressed(new BallBackward(m_ballMover))
-    .whenReleased(new BallStop(m_ballMover));
+    
     
     /*
     //X Button
@@ -106,13 +100,18 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kBack.value)
     .whenPressed(new RetractPickup(m_ballPickup));
 
-    //Operator
-    //B Button
+    new JoystickButton(m_operator, Button.kBumperLeft.value) //Move balls in
+    .whenPressed(new BallForward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+    
     new JoystickButton(m_operator, Button.kBumperRight.value) //ball intake
     .whenPressed(new BallUp(m_ballPickup))
     .whenReleased(new StopPickup(m_ballPickup));
 
-    //X button
+    new JoystickButton(m_operator, Button.kB.value) //move balls back
+    .whenPressed(new BallBackward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+
     new JoystickButton(m_operator, Button.kA.value) // shooter
     .whenPressed(new Shooter(m_Shoot))
     .whenReleased(new StopShooter(m_Shoot));
@@ -120,7 +119,7 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kStickLeft.value)
     .whenPressed(new BallPushIn(m_Shoot))
     .whenReleased(new BallPushOut(m_Shoot));
-/*
+
     //Left Bumper
     new JoystickButton(m_operator, Button.kX.value) //pivot cannon front
     .whenPressed(new PivotFront(m_Pivot))
@@ -131,6 +130,7 @@ public class RobotContainer {
     .whenPressed(new PivotBack(m_Pivot))
     .whenReleased(new StopPivot(m_Pivot));
     
+    /*
     //Start button
     new JoystickButton(m_operator, Button.kStart.value) //spin wof wheel
     .whenPressed(new ForwardSpin(m_WOF))
@@ -141,6 +141,14 @@ public class RobotContainer {
     .whenPressed(new BackwardSpin(m_WOF))
     .whenReleased(new StopSpin(m_WOF));
     */
+
+    new JoystickButton(m_driver, Button.kA.value)
+    .whenPressed(new LiftArmUp(m_Arm))
+    .whenReleased(new ArmStop(m_Arm));
+
+    new JoystickButton(m_driver, Button.kB.value)
+    .whenPressed(new ArmDown(m_Arm))
+    .whenReleased(new ArmStop(m_Arm));
   }
 
 

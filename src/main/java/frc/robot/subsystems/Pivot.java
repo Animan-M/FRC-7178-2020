@@ -29,11 +29,11 @@ public class Pivot extends SubsystemBase {
   }
 
   public void pivotFront() {
-    m_shootMove.set(ControlMode.PercentOutput, 0.3);
+    m_shootMove.set(ControlMode.PercentOutput, 0.15);
   }
 
   public void pivotBack() {
-    m_shootMove.set(ControlMode.PercentOutput, -0.3);
+    m_shootMove.set(ControlMode.PercentOutput, -0.15);
   }
 
   public void stopPivot() {

@@ -23,15 +23,17 @@ public class PivotFront extends CommandBase {
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5250) {
+    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5000) {
       m_Pivot.pivotFront();
+    } else {
+      m_Pivot.stopPivot();
     }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5250) {
+    if(Pivot.m_shootMove.getSelectedSensorPosition() < 5000) {
       return false;
     } else {
       return true;

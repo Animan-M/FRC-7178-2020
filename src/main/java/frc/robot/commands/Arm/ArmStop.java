@@ -10,11 +10,11 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class LiftArmUp extends CommandBase {
-
+public class ArmStop extends CommandBase {
+  
   private final Arm m_Arm;
 
-  public LiftArmUp(Arm subsystem) {
+  public ArmStop(Arm subsystem) {
     m_Arm = subsystem;
     addRequirements(m_Arm);
   }
@@ -22,12 +22,7 @@ public class LiftArmUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(Arm.armState = false) {
-      m_Arm.LiftArmUp();
-    } else {
-      m_Arm.ArmStop();
-    }
-
+    m_Arm.ArmStop();
   }
 
   // Returns true when the command should end.
