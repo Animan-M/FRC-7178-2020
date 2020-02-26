@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Lift extends SubsystemBase {
@@ -22,16 +24,22 @@ public class Lift extends SubsystemBase {
   public Lift() {
     m_leftLift = new WPI_TalonSRX(14);
     m_rightLift = new WPI_TalonSRX(12);
+
+    m_leftLift.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    m_leftLift.setSelectedSensorPosition(0);
+
+    m_rightLift.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    m_rightLift.setSelectedSensorPosition(0);
   }
 
   public void LiftUp() {
-    m_leftLift.set(ControlMode.PercentOutput, 0.5);
-    m_rightLift.set(ControlMode.PercentOutput, 0.5);
+    m_leftLift.set(ControlMode.PercentOutput, 0.2);
+    m_rightLift.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void LiftDown() {
-    m_leftLift.set(ControlMode.PercentOutput, -0.5);
-    m_rightLift.set(ControlMode.PercentOutput, -0.5);
+    m_leftLift.set(ControlMode.PercentOutput, -0.2);
+    m_rightLift.set(ControlMode.PercentOutput, -0.2);
   }
 
   public void StopLift() {
@@ -39,5 +47,21 @@ public class Lift extends SubsystemBase {
     m_rightLift.set(ControlMode.PercentOutput, 0);
   }
 
+  /*
+  public double leftLiftPosition() {
+
+  }
+
+  public double rightLiftPosition() {
+
+  }
+  */
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Left Lift", m_leftLift.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Lift", m_rightLift.getSelectedSensorPosition());
+
+  }
  
 }

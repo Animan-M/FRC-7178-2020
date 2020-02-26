@@ -31,7 +31,6 @@ import frc.robot.commands.Shoot.StopShooter;
 import frc.robot.commands.Drive.DefaultDrive;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -48,7 +47,6 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   
   public static Chassis m_chassis = new Chassis();
-
   public static Arm m_Arm = new Arm();
   public static BallMover m_ballMover = new BallMover();
   public static BallPickup m_ballPickup = new BallPickup();
@@ -69,8 +67,8 @@ public class RobotContainer {
 
     m_chassis.setDefaultCommand(
       new DefaultDrive(m_chassis, 
-      () -> m_driver.getY(GenericHID.Hand.kLeft) * -1, 
-      () -> m_driver.getX(GenericHID.Hand.kRight)));
+      () -> m_driver.getRawAxis(3), 
+      () -> m_driver.getRawAxis(1)));
   }
 
   /**

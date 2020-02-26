@@ -49,6 +49,6 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Position", m_shootMove.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Pivot Rotation", m_shootMove.getSelectedSensorPosition());
   }
 }

@@ -39,15 +39,15 @@ public class Arm extends SubsystemBase {
   }
 
   public void LiftArmUp() {
-    m_armMove.set(ControlMode.PercentOutput, 0.1);
+    m_armMove.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void WOFArmUp() {
-    m_armMove.set(ControlMode.PercentOutput, 0.1);
+    m_armMove.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void ArmDown() {
-    m_armMove.set(ControlMode.PercentOutput, -0.1);
+    m_armMove.set(ControlMode.PercentOutput, -0.2);
   }
 
   public void ArmStop() {
