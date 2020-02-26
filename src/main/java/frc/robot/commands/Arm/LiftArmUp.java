@@ -22,11 +22,11 @@ public class LiftArmUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(Arm.armState = false) {
+    // if(Arm.armState = false) {
       m_Arm.LiftArmUp();
-    } else {
-      m_Arm.ArmStop();
-    }
+    // } else {
+    //   m_Arm.ArmStop();
+    // }
 
   }
 

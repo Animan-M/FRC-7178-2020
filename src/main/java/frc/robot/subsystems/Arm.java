@@ -22,32 +22,31 @@ public class Arm extends SubsystemBase {
   public static WPI_TalonSRX m_armMove;
   public static DigitalInput _up_nc = new DigitalInput(0);
   public static DigitalInput _dn_nc = new DigitalInput(1);
+  public static DigitalInput _input3 = new DigitalInput(2); //top
+  public static DigitalInput _input4 = new DigitalInput(3); //bottom
+  public static DigitalInput _input5 = new DigitalInput(4); 
 
   public static boolean _armTop = false;
   public static boolean _armBottom = false;
   public static boolean armState = false;
 
   public Arm() {
-    m_armMove = new WPI_TalonSRX(15);
+    m_armMove = new WPI_TalonSRX(14);
 
   }
 
   public boolean ArmUp() {
-    armState = _up_nc.get();
+    armState = _input3.get();
 
     return armState;
   }
 
   public void LiftArmUp() {
-    m_armMove.set(ControlMode.PercentOutput, 0.1);
-  }
-
-  public void WOFArmUp() {
-    m_armMove.set(ControlMode.PercentOutput, 0.1);
+    m_armMove.set(ControlMode.PercentOutput, 0.3);
   }
 
   public void ArmDown() {
-    m_armMove.set(ControlMode.PercentOutput, -0.1);
+    m_armMove.set(ControlMode.PercentOutput, -0.3);
   }
 
   public void ArmStop() {
@@ -58,5 +57,8 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Top Limit", _up_nc.get());
     SmartDashboard.putBoolean("Bottom Limit", _dn_nc.get());
+    SmartDashboard.putBoolean("Top", _input3.get());
+    SmartDashboard.putBoolean("Bottom", _input4.get());
+    SmartDashboard.putBoolean("Imput5", _input5.get());
   }
 }
