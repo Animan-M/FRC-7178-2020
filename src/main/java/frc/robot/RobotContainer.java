@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.*;
 import frc.robot.commands.Arm.LiftArmUp;
 import frc.robot.commands.Arm.ArmDown;
@@ -21,6 +22,11 @@ import frc.robot.commands.Intake.BallUp;
 import frc.robot.commands.Intake.DeployPickup;
 import frc.robot.commands.Intake.RetractPickup;
 import frc.robot.commands.Intake.StopPickup;
+import frc.robot.commands.Lift.LiftDown;
+import frc.robot.commands.Lift.LiftLeftUp;
+import frc.robot.commands.Lift.LiftRightUp;
+import frc.robot.commands.Lift.LiftUp;
+import frc.robot.commands.Lift.StopLift;
 import frc.robot.commands.Pivot.PivotBack;
 import frc.robot.commands.Pivot.PivotFront;
 import frc.robot.commands.Pivot.StopPivot;
@@ -31,6 +37,7 @@ import frc.robot.commands.Shoot.StopShooter;
 import frc.robot.commands.Drive.DefaultDrive;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
@@ -46,14 +53,14 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   
-  public static Chassis m_chassis = new Chassis();
-  public static Arm m_Arm = new Arm();
-  public static BallMover m_ballMover = new BallMover();
-  public static BallPickup m_ballPickup = new BallPickup();
-  public static Lift m_lift = new Lift();
-  public static Shoot m_Shoot = new Shoot();  
-  public static Pivot m_Pivot = new Pivot();
-  public static WheelOfFortune m_WOF = new WheelOfFortune();
+  private final Chassis m_chassis = new Chassis();
+  private final Arm m_Arm = new Arm();
+  private final BallMover m_ballMover = new BallMover();
+  private final BallPickup m_ballPickup = new BallPickup();
+  private final Lift m_lift = new Lift();
+  private final Shoot m_Shoot = new Shoot();  
+  private final Pivot m_Pivot = new Pivot();
+  private final WheelOfFortune m_WOF = new WheelOfFortune();
 
   public static XboxController m_driver = new XboxController(0);
   public static XboxController m_operator = new XboxController(1);
@@ -139,6 +146,15 @@ public class RobotContainer {
     .whenPressed(new BackwardSpin(m_WOF))
     .whenReleased(new StopSpin(m_WOF));
     */
+
+    new JoystickButton(m_driver, Button.kX.value)
+    .whenPressed(new LiftUp(m_lift))
+    .whenReleased(new StopLift(m_lift));
+
+
+    new JoystickButton(m_driver, Button.kY.value)
+    .whenPressed(new LiftDown(m_lift))
+    .whenReleased(new StopLift(m_lift));
 
     new JoystickButton(m_driver, Button.kA.value)
     .whenPressed(new LiftArmUp(m_Arm))

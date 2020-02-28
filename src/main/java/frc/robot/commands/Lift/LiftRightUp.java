@@ -5,29 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Arm;
+package frc.robot.commands.Lift;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Lift;
 
-public class WOFArmUp extends CommandBase {
+public class LiftRightUp extends CommandBase {
   
-  private final Arm m_Arm;
+  private final Lift m_lift;
 
-  public WOFArmUp(Arm subsystem) {
-    m_Arm = subsystem;
-    addRequirements(m_Arm);
+  public LiftRightUp(Lift subsystem) {
+  m_lift = subsystem;
+  addRequirements(m_lift);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Arm.WOFArmUp();
+    if(Lift.m_rightLift.getSelectedSensorPosition() < 1000000) {
+      m_lift.RightLiftUp();
+    } else {
+      m_lift.StopLift();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if(Lift.m_rightLift.getSelectedSensorPosition() < 1000000) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

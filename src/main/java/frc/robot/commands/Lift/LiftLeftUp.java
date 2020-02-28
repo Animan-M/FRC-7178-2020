@@ -5,38 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Arm;
+package frc.robot.commands.Lift;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Lift;
 
-public class LiftArmUp extends CommandBase {
+public class LiftLeftUp extends CommandBase {
+  
+  private final Lift m_lift;
 
-  private final Arm m_Arm;
-
-  public LiftArmUp(Arm subsystem) {
-    m_Arm = subsystem;
-    addRequirements(m_Arm);
+  public LiftLeftUp(Lift subsystem) {
+    m_lift = subsystem;
+    addRequirements(m_lift);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(Arm._top.get() == false || Arm.m_armMove.getSelectedSensorPosition() > 15000) {
-      m_Arm.LiftArmUp();
+    if(Lift.m_leftLift.getSelectedSensorPosition() < 1000000) {
+      m_lift.LeftLiftUp();
     } else {
-      m_Arm.ArmStop();
+      m_lift.StopLift();
     }
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Arm._top.get() == false || Arm.m_armMove.getSelectedSensorPosition() > 15000) {
+    if(Lift.m_leftLift.getSelectedSensorPosition() < 1000000) {
       return false;
     } else {
       return true;
     }
+    
   }
 }

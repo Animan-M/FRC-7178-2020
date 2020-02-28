@@ -22,8 +22,8 @@ public class Lift extends SubsystemBase {
   public static WPI_TalonSRX m_rightLift;
 
   public Lift() {
-    m_leftLift = new WPI_TalonSRX(14);
-    m_rightLift = new WPI_TalonSRX(12);
+    m_leftLift = new WPI_TalonSRX(12);
+    m_rightLift = new WPI_TalonSRX(15);
 
     m_leftLift.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_leftLift.setSelectedSensorPosition(0);
@@ -33,18 +33,34 @@ public class Lift extends SubsystemBase {
   }
 
   public void LiftUp() {
-    m_leftLift.set(ControlMode.PercentOutput, 0.2);
-    m_rightLift.set(ControlMode.PercentOutput, 0.2);
+    m_leftLift.set(ControlMode.PercentOutput, 0.4);
+    m_rightLift.set(ControlMode.PercentOutput, 0.4);
   }
 
   public void LiftDown() {
-    m_leftLift.set(ControlMode.PercentOutput, -0.2);
-    m_rightLift.set(ControlMode.PercentOutput, -0.2);
+    m_leftLift.set(ControlMode.PercentOutput, -0.5);
+    m_rightLift.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void StopLift() {
     m_leftLift.set(ControlMode.PercentOutput, 0);
     m_rightLift.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void LeftLiftUp() {
+    if(m_leftLift.getSelectedSensorPosition() < 1000000) {
+      m_leftLift.set(ControlMode.Velocity, 3500);
+    } else {
+      m_leftLift.set(ControlMode.Velocity, 0);
+    }
+  }
+
+  public void RightLiftUp() {
+    if(m_rightLift.getSelectedSensorPosition() < 1000000) {
+      m_rightLift.set(ControlMode.Velocity, 3500);
+    } else {
+      m_rightLift.set(ControlMode.Velocity, 0);
+    }
   }
 
   /*
@@ -55,13 +71,32 @@ public class Lift extends SubsystemBase {
   public double rightLiftPosition() {
 
   }
+  
+  
+
+  public void LiftUp() {
+    if(m_leftLift.getSelectedSensorPosition() < 1000000) {
+      m_leftLift.set(ControlMode.Velocity, 3500);
+    } else {
+      m_leftLift.set(ControlMode.Velocity, 0);
+    }
+
+    if(m_rightLift.getSelectedSensorPosition() < 1000000) {
+      m_rightLift.set(ControlMode.Velocity, 3500);
+    } else {
+      m_rightLift.set(ControlMode.Velocity, 0);
+    }
+  }
   */
+  
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Left Lift", m_leftLift.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Lift", m_rightLift.getSelectedSensorPosition());
 
+    SmartDashboard.putNumber("Left Velocity", m_leftLift.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Velocity", m_rightLift.getSelectedSensorVelocity());
   }
  
 }
