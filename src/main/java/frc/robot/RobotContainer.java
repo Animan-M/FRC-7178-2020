@@ -7,24 +7,23 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.*;
 import frc.robot.commands.Arm.LiftArmUp;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Arm.ArmDown;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.BallMove.BallBackward;
 import frc.robot.commands.BallMove.BallForward;
 import frc.robot.commands.BallMove.BallStop;
+import frc.robot.commands.BallMove.automatedBallMove;
 import frc.robot.commands.Intake.BallUp;
 import frc.robot.commands.Intake.DeployPickup;
 import frc.robot.commands.Intake.RetractPickup;
 import frc.robot.commands.Intake.StopPickup;
 import frc.robot.commands.Lift.LiftDown;
-import frc.robot.commands.Lift.LiftLeftUp;
-import frc.robot.commands.Lift.LiftRightUp;
 import frc.robot.commands.Lift.LiftUp;
 import frc.robot.commands.Lift.StopLift;
 import frc.robot.commands.Pivot.PivotBack;
@@ -34,12 +33,20 @@ import frc.robot.commands.Shoot.BallPushIn;
 import frc.robot.commands.Shoot.BallPushOut;
 import frc.robot.commands.Shoot.Shooter;
 import frc.robot.commands.Shoot.StopShooter;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.BallMover;
+import frc.robot.subsystems.BallPickup;
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Shoot;
+import frc.robot.subsystems.WheelOfFortune;
 import frc.robot.commands.Drive.DefaultDrive;
-import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -71,11 +78,14 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    
+    CameraServer.getInstance().startAutomaticCapture(0);
 
     m_chassis.setDefaultCommand(
       new DefaultDrive(m_chassis, 
-      () -> m_driver.getRawAxis(3), 
-      () -> m_driver.getRawAxis(1)));
+      () -> m_driver.getRawAxis(3),
+      () -> m_driver.getRawAxis(2), 
+      () -> m_driver.getRawAxis(0)));
   }
 
   /**
@@ -101,25 +111,27 @@ public class RobotContainer {
 
     new JoystickButton(m_operator, Button.kStart.value)
     .whenPressed(new DeployPickup(m_ballPickup));
-
+    
     new JoystickButton(m_operator, Button.kBack.value)
     .whenPressed(new RetractPickup(m_ballPickup));
-
+/*
     new JoystickButton(m_operator, Button.kBumperLeft.value) //Move balls in
     .whenPressed(new BallForward(m_ballMover))
     .whenReleased(new BallStop(m_ballMover));
     
-    new JoystickButton(m_operator, Button.kBumperRight.value) //ball intake
-    .whenPressed(new BallUp(m_ballPickup))
-    .whenReleased(new StopPickup(m_ballPickup));
+    
 
     new JoystickButton(m_operator, Button.kB.value) //move balls back
     .whenPressed(new BallBackward(m_ballMover))
     .whenReleased(new BallStop(m_ballMover));
-
+*/
     new JoystickButton(m_operator, Button.kA.value) // shooter
     .whenPressed(new Shooter(m_Shoot))
     .whenReleased(new StopShooter(m_Shoot));
+
+    new JoystickButton(m_operator, Button.kBumperRight.value)
+    .whenPressed(new BallUp(m_ballPickup))
+    .whenReleased(new StopPickup(m_ballPickup));
 
     new JoystickButton(m_operator, Button.kStickLeft.value)
     .whenPressed(new BallPushIn(m_Shoot))
@@ -148,9 +160,8 @@ public class RobotContainer {
     */
 
     new JoystickButton(m_driver, Button.kX.value)
-    .whenPressed(new LiftUp(m_lift))
+    .whileHeld(new LiftUp(m_lift))
     .whenReleased(new StopLift(m_lift));
-
 
     new JoystickButton(m_driver, Button.kY.value)
     .whenPressed(new LiftDown(m_lift))
@@ -163,6 +174,10 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kB.value)
     .whenPressed(new ArmDown(m_Arm))
     .whenReleased(new ArmStop(m_Arm));
+
+    new JoystickButton(m_driver, Button.kBumperRight.value)
+    .whileHeld(new automatedBallMove(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
   }
 
 

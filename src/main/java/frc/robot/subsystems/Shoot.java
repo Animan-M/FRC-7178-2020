@@ -24,7 +24,6 @@ public class Shoot extends SubsystemBase {
   public Shoot() {
     m_topShoot = new WPI_TalonSRX(8);
     m_bottomShoot = new WPI_TalonSRX(7);
-    
     m_ballPush = new Solenoid(19, 0); //can id, pcm channel
 
     m_topShoot.setNeutralMode(NeutralMode.Coast);
@@ -32,8 +31,8 @@ public class Shoot extends SubsystemBase {
   }
 
   public void Shooter() {
-    m_topShoot.set(ControlMode.PercentOutput, 1);
-    m_bottomShoot.set(ControlMode.PercentOutput, -1);
+    m_topShoot.set(ControlMode.PercentOutput, -1);
+    m_bottomShoot.set(ControlMode.PercentOutput, 1);
   }
 
   public void stopShooter() {

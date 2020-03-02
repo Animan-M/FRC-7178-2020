@@ -16,11 +16,14 @@ public class DefaultDrive extends CommandBase {
 
   private final Chassis m_chassis;
   private final DoubleSupplier m_forward;
+  private final DoubleSupplier m_backward;
   private final DoubleSupplier m_turn;
+  private double m_drive;
 
-  public DefaultDrive(Chassis subsystem, DoubleSupplier forward, DoubleSupplier turn) {
+  public DefaultDrive(Chassis subsystem, DoubleSupplier forward, DoubleSupplier backward, DoubleSupplier turn) {
     m_chassis = subsystem;
     m_forward = forward;
+    m_backward = backward;
     m_turn = turn;
     addRequirements(m_chassis);
    }
@@ -28,6 +31,7 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_chassis.arcadeDrive(m_forward.getAsDouble()/-1.05, m_turn.getAsDouble()/1.05);
+    m_drive = m_forward.getAsDouble() - m_backward.getAsDouble();
+    m_chassis.arcadeDrive(m_drive/-1.05, m_turn.getAsDouble()/1.05);
   }
 }

@@ -11,12 +11,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pivot extends SubsystemBase {
   
   public static WPI_TalonSRX m_shootMove;
+  public static DigitalInput _pivotUp = new DigitalInput(5);
   
   public Pivot() {
     m_shootMove = new WPI_TalonSRX(11);
@@ -50,5 +52,6 @@ public class Pivot extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Pivot Rotation", m_shootMove.getSelectedSensorPosition());
+    SmartDashboard.putBoolean("Pivoot Spot", _pivotUp.get());
   }
 }
