@@ -80,6 +80,7 @@ public class RobotContainer {
     configureButtonBindings();
     
     CameraServer.getInstance().startAutomaticCapture(0);
+    CameraServer.getInstance().startAutomaticCapture(1);
 
     m_chassis.setDefaultCommand(
       new DefaultDrive(m_chassis, 
@@ -119,12 +120,12 @@ public class RobotContainer {
     .whenPressed(new BallForward(m_ballMover))
     .whenReleased(new BallStop(m_ballMover));
     
-    
+*/    
 
-    new JoystickButton(m_operator, Button.kB.value) //move balls back
+    new JoystickButton(m_driver, Button.kBumperLeft.value) //move balls back
     .whenPressed(new BallBackward(m_ballMover))
     .whenReleased(new BallStop(m_ballMover));
-*/
+
     new JoystickButton(m_operator, Button.kA.value) // shooter
     .whenPressed(new Shooter(m_Shoot))
     .whenReleased(new StopShooter(m_Shoot));
@@ -176,7 +177,7 @@ public class RobotContainer {
     .whenReleased(new ArmStop(m_Arm));
 
     new JoystickButton(m_driver, Button.kBumperRight.value)
-    .whileHeld(new automatedBallMove(m_ballMover))
+    .whenPressed(new automatedBallMove(m_ballMover, true, false))
     .whenReleased(new BallStop(m_ballMover));
   }
 

@@ -32,6 +32,6 @@ public class DefaultDrive extends CommandBase {
   @Override
   public void execute() {
     m_drive = m_forward.getAsDouble() - m_backward.getAsDouble();
-    m_chassis.arcadeDrive(m_drive/-1.05, m_turn.getAsDouble()/1.05);
+    m_chassis.arcadeDrive(m_drive/-0.85, m_turn.getAsDouble()/0.85);
   }
 }

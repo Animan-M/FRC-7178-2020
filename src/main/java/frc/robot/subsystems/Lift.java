@@ -33,12 +33,12 @@ public class Lift extends SubsystemBase {
   }
 
   public void LiftUp() {
-    m_leftLift.set(ControlMode.PercentOutput, 0.7);
-    m_rightLift.set(ControlMode.PercentOutput, 0.7);
+    m_leftLift.set(ControlMode.PercentOutput, 0.35);
+    m_rightLift.set(ControlMode.PercentOutput, 0.4);
   }
 
   public void LiftDown() {
-    m_leftLift.set(ControlMode.PercentOutput, -0.5);
+    m_leftLift.set(ControlMode.PercentOutput, -0.45);
     m_rightLift.set(ControlMode.PercentOutput, -0.5);
   }
 
@@ -48,7 +48,7 @@ public class Lift extends SubsystemBase {
   }
   
   public void LeftLiftUp() {
-    if(m_leftLift.getSelectedSensorPosition() < 1000000) {
+    if(m_leftLift.getSelectedSensorPosition() < 160000) {
       m_leftLift.set(ControlMode.Velocity, 4000);
     } else {
       m_leftLift.set(ControlMode.Velocity, 0);
@@ -56,7 +56,7 @@ public class Lift extends SubsystemBase {
   }
 
   public void RightLiftUp() {
-    if(m_rightLift.getSelectedSensorPosition() < 1000000) {
+    if(m_rightLift.getSelectedSensorPosition() < 160000) {
       m_rightLift.set(ControlMode.Velocity, 4000);
     } else {
       m_rightLift.set(ControlMode.Velocity, 0);

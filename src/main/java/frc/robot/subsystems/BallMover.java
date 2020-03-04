@@ -23,18 +23,18 @@ public class BallMover extends SubsystemBase {
   public static DigitalInput _midMove = new DigitalInput(0); //default = true
   public static DigitalInput _pickUp = new DigitalInput(1); //default = true
   public static DigitalInput _endShoot = new DigitalInput(4); //default = false
-  public static DigitalInput _pickProxy = new DigitalInput(6);
-  // public static DigialInput _midProc
+  public static DigitalInput _pickProxy = new DigitalInput(6); //default = true
+  public static DigitalInput _midProxy = new DigitalInput(7); 
 
   public BallMover() {
     m_middle = new WPI_TalonSRX(10);
     m_front = new WPI_TalonSRX(6);
-    m_ballHelp = new WPI_TalonSRX(16);
+    m_ballHelp = new WPI_TalonSRX(16);    
   }
   
   public void ballForward() {
-    m_middle.set(ControlMode.PercentOutput, -.5); //negative since upside down
-    m_front.set(ControlMode.PercentOutput, .5);
+    m_middle.set(ControlMode.PercentOutput, -.3); //negative since upside down
+    m_front.set(ControlMode.PercentOutput, .3);
   }
 
   public void ballBackward() {
@@ -100,6 +100,7 @@ public class BallMover extends SubsystemBase {
     SmartDashboard.putBoolean("MidMove", _midMove.get());
     SmartDashboard.putBoolean("End", _endShoot.get());
     SmartDashboard.putBoolean("Pickup Proximity", _pickProxy.get());
+    SmartDashboard.putBoolean("Mid Proximity", _midProxy.get());
   }
 
 }

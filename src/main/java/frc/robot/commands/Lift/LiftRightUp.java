@@ -22,7 +22,7 @@ public class LiftRightUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(Lift.m_rightLift.getSelectedSensorPosition() < 1000000) {
+    if(Lift.m_rightLift.getSelectedSensorPosition() < 160000) {
       m_lift.RightLiftUp();
     } else {
       m_lift.StopLift();
@@ -32,7 +32,7 @@ public class LiftRightUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Lift.m_rightLift.getSelectedSensorPosition() < 1000000) {
+    if(Lift.m_rightLift.getSelectedSensorPosition() < 160000) {
       return false;
     } else {
       return true;
