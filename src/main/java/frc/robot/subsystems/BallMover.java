@@ -33,8 +33,15 @@ public class BallMover extends SubsystemBase {
   }
   
   public void ballForward() {
-    m_middle.set(ControlMode.PercentOutput, -.3); //negative since upside down
-    m_front.set(ControlMode.PercentOutput, .3);
+    m_middle.set(ControlMode.PercentOutput, -.35); //negative since upside down
+    m_front.set(ControlMode.PercentOutput, .45);
+    m_ballHelp.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void autoBallForward() {
+    m_middle.set(ControlMode.PercentOutput, -.20); //negative since upside down
+    m_front.set(ControlMode.PercentOutput, .20);
+    m_ballHelp.set(ControlMode.PercentOutput, 0.5);
   }
 
   public void ballBackward() {
@@ -45,6 +52,7 @@ public class BallMover extends SubsystemBase {
   public void ballStop() {
     m_middle.set(ControlMode.PercentOutput, 0);
     m_front.set(ControlMode.PercentOutput, 0);
+    m_ballHelp.set(ControlMode.PercentOutput, 0);
   }
 /*
   public void automatedBallMove() {

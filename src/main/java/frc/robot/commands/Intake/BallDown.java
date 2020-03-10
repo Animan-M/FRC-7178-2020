@@ -5,25 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Pivot;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.BallPickup;
 
-public class PivotFront extends CommandBase {
+public class BallDown extends CommandBase {
   
-  private final Pivot m_Pivot;
+  private final BallPickup m_BallPickup;
 
-  public PivotFront(Pivot subsystem) {
-    m_Pivot = subsystem;
-    addRequirements(m_Pivot);
+  public BallDown(BallPickup subsystem) {
+    m_BallPickup = subsystem;
+    addRequirements(m_BallPickup);
   }
 
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Pivot.pivotFront();
+    m_BallPickup.ballDown();
   }
+
 
   // Returns true when the command should end.
   @Override

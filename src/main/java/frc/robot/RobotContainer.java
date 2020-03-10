@@ -11,14 +11,18 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.Arm.LiftArmUp;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Auto.AutoDriveBackward;
+import frc.robot.commands.Auto.AutoDriveForward;
 import frc.robot.commands.Arm.ArmDown;
 import frc.robot.commands.Arm.ArmStop;
 import frc.robot.commands.BallMove.BallBackward;
 import frc.robot.commands.BallMove.BallForward;
 import frc.robot.commands.BallMove.BallStop;
 import frc.robot.commands.BallMove.automatedBallMove;
+import frc.robot.commands.Intake.BallDown;
 import frc.robot.commands.Intake.BallUp;
 import frc.robot.commands.Intake.DeployPickup;
 import frc.robot.commands.Intake.RetractPickup;
@@ -37,15 +41,12 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.BallMover;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Shoot;
 import frc.robot.subsystems.WheelOfFortune;
 import frc.robot.commands.Drive.DefaultDrive;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -57,9 +58,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  
   private final Chassis m_chassis = new Chassis();
   private final Arm m_Arm = new Arm();
   private final BallMover m_ballMover = new BallMover();
@@ -69,8 +67,19 @@ public class RobotContainer {
   private final Pivot m_Pivot = new Pivot();
   private final WheelOfFortune m_WOF = new WheelOfFortune();
 
+  private final Command m_AutoForwardShoot = new AutoDriveForward(m_chassis, m_ballMover, m_Shoot);
+  private final Command m_AutoBackwardShoot = new AutoDriveBackward(m_chassis, m_ballMover, m_Shoot);
+
+  // private final Command m_complexAutoLeft = new ComplexAutoLeft(m_robotDrive, m_indexerSubsystem, m_shooterSubsystem);
+  // private final Command m_complexAutoRight = new ComplexAuto(m_robotDrive, m_indexerSubsystem, m_shooterSubsystem);
+  // private final Command m_autoNearTrench = new AutoNearTrench(m_robotDrive, m_indexerSubsystem, m_shooterSubsystem,m_intakeSubsystem,m_hopperSubsystem);
+  // private final Command m_autoFarTrench = new AutoFarTrench(m_robotDrive, m_indexerSubsystem, m_shooterSubsystem,m_intakeSubsystem,m_hopperSubsystem);
+
+
   public static XboxController m_driver = new XboxController(0);
   public static XboxController m_operator = new XboxController(1);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -87,6 +96,11 @@ public class RobotContainer {
       () -> m_driver.getRawAxis(3),
       () -> m_driver.getRawAxis(2), 
       () -> m_driver.getRawAxis(0)));
+
+      m_chooser.addOption("Forward - Shoot", m_AutoForwardShoot);
+      m_chooser.addOption("Backward - Shoot", m_AutoBackwardShoot);
+
+      Shuffleboard.getTab("Autonomous").add(m_chooser);
   }
 
   /**
@@ -110,56 +124,6 @@ public class RobotContainer {
     .whenReleased(new StopLift(m_lift));
     */
 
-    new JoystickButton(m_operator, Button.kStart.value)
-    .whenPressed(new DeployPickup(m_ballPickup));
-    
-    new JoystickButton(m_operator, Button.kBack.value)
-    .whenPressed(new RetractPickup(m_ballPickup));
-/*
-    new JoystickButton(m_operator, Button.kBumperLeft.value) //Move balls in
-    .whenPressed(new BallForward(m_ballMover))
-    .whenReleased(new BallStop(m_ballMover));
-    
-*/    
-
-    new JoystickButton(m_driver, Button.kBumperLeft.value) //move balls back
-    .whenPressed(new BallBackward(m_ballMover))
-    .whenReleased(new BallStop(m_ballMover));
-
-    new JoystickButton(m_operator, Button.kA.value) // shooter
-    .whenPressed(new Shooter(m_Shoot))
-    .whenReleased(new StopShooter(m_Shoot));
-
-    new JoystickButton(m_operator, Button.kBumperRight.value)
-    .whenPressed(new BallUp(m_ballPickup))
-    .whenReleased(new StopPickup(m_ballPickup));
-
-    new JoystickButton(m_operator, Button.kStickLeft.value)
-    .whenPressed(new BallPushIn(m_Shoot))
-    .whenReleased(new BallPushOut(m_Shoot));
-
-    //Left Bumper
-    new JoystickButton(m_operator, Button.kX.value) //pivot cannon front
-    .whenPressed(new PivotFront(m_Pivot))
-    .whenReleased(new StopPivot(m_Pivot));
-
-    //Right bumper
-    new JoystickButton(m_operator, Button.kY.value) //pivot cannon back
-    .whenPressed(new PivotBack(m_Pivot))
-    .whenReleased(new StopPivot(m_Pivot));
-    
-    /*
-    //Start button
-    new JoystickButton(m_operator, Button.kStart.value) //spin wof wheel
-    .whenPressed(new ForwardSpin(m_WOF))
-    .whenReleased(new StopSpin(m_WOF));
-
-    //back button
-    new JoystickButton(m_operator, Button.kBack.value) //reverse wof wheel
-    .whenPressed(new BackwardSpin(m_WOF))
-    .whenReleased(new StopSpin(m_WOF));
-    */
-
     new JoystickButton(m_driver, Button.kX.value)
     .whileHeld(new LiftUp(m_lift))
     .whenReleased(new StopLift(m_lift));
@@ -176,9 +140,60 @@ public class RobotContainer {
     .whenPressed(new ArmDown(m_Arm))
     .whenReleased(new ArmStop(m_Arm));
 
-    new JoystickButton(m_driver, Button.kBumperRight.value)
+    new JoystickButton(m_driver, Button.kStart.value)
+    .whenPressed(new DeployPickup(m_ballPickup));
+
+
+
+    new JoystickButton(m_operator, Button.kStart.value)
+    .whenPressed(new BallForward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+    
+    new JoystickButton(m_operator, Button.kBack.value)
+    .whenPressed(new RetractPickup(m_ballPickup));
+
+    new JoystickButton(m_operator, Button.kBumperRight.value)
+    .whenPressed(new BallUp(m_ballPickup))
+    .whenReleased(new StopPickup(m_ballPickup));
+
+    new JoystickButton(m_operator, Button.kBumperLeft.value)
+    .whenPressed(new BallDown(m_ballPickup))
+    .whenReleased(new StopPickup(m_ballPickup));
+
+    new JoystickButton(m_operator, Button.kStickRight.value) 
+    .whenPressed(new BallBackward(m_ballMover))
+    .whenReleased(new BallStop(m_ballMover));
+
+    new JoystickButton(m_operator, Button.kStickLeft.value)
+    .whenPressed(new BallPushIn(m_Shoot))
+    .whenReleased(new BallPushOut(m_Shoot));
+
+    new JoystickButton(m_operator, Button.kA.value) 
+    .whenPressed(new Shooter(m_Shoot))
+    .whenReleased(new StopShooter(m_Shoot));
+
+    new JoystickButton(m_operator, Button.kB.value)
     .whenPressed(new automatedBallMove(m_ballMover, true, false))
     .whenReleased(new BallStop(m_ballMover));
+
+    new JoystickButton(m_operator, Button.kX.value) 
+    .whenPressed(new PivotFront(m_Pivot))
+    .whenReleased(new StopPivot(m_Pivot));
+
+    new JoystickButton(m_operator, Button.kY.value) 
+    .whenPressed(new PivotBack(m_Pivot))
+    .whenReleased(new StopPivot(m_Pivot));
+    /*
+    //Start button
+    new JoystickButton(m_operator, Button.kStart.value) //spin wof wheel
+    .whenPressed(new ForwardSpin(m_WOF))
+    .whenReleased(new StopSpin(m_WOF));
+
+    //back button
+    new JoystickButton(m_operator, Button.kBack.value) //reverse wof wheel
+    .whenPressed(new BackwardSpin(m_WOF))
+    .whenReleased(new StopSpin(m_WOF));
+    */
   }
 
 
@@ -189,6 +204,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_chooser.getSelected();
   }
 }

@@ -35,8 +35,13 @@ public class BallPickup extends SubsystemBase {
   }
 
   public void ballUp() {
-    m_back.set(ControlMode.PercentOutput, .6);
-    m_pickup.set(ControlMode.PercentOutput, .7);
+    m_back.set(ControlMode.PercentOutput, 0.65);
+    m_pickup.set(ControlMode.PercentOutput, 1);
+  }
+
+  public void ballDown() {
+    m_back.set(ControlMode.PercentOutput, -0.8);
+    m_pickup.set(ControlMode.PercentOutput, -1);
   }
 
   public void ballStop() {

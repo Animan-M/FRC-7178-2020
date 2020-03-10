@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shoot extends SubsystemBase {
@@ -40,11 +41,35 @@ public class Shoot extends SubsystemBase {
     m_bottomShoot.set(ControlMode.PercentOutput, 0);
   }
 
+  public void speedControlShooter(double speedTarget){
+    m_topShoot.set(ControlMode.Velocity, -speedTarget);
+    m_bottomShoot.set(ControlMode.Velocity, speedTarget);
+  }
+
+  public double getShooterVelocity(){
+    int sensorVelocityTop = m_topShoot.getSelectedSensorVelocity(0);
+    int sensorVelocityBottom = m_bottomShoot.getSelectedSensorVelocity(0);
+    double vel_RotPerSecTop = (double)sensorVelocityTop / 2048 * 10;
+    double vel_RotPerSecBottom = (double)sensorVelocityBottom / 2048 * 10;
+    double vel_AvgRotPerSec = vel_RotPerSecBottom + (-vel_RotPerSecTop) / 2; 
+    double vel_RotPerMin = vel_AvgRotPerSec * 60.0;
+
+    return vel_RotPerMin;
+
+  }
+
   public void ballPushIn() {
     m_ballPush.set(true);
   }
 
   public void ballPushOut() {
     m_ballPush.set(false);
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("Top Velocity", m_topShoot.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Bottom Velocity", m_bottomShoot.getSelectedSensorVelocity());
+    
   }
 }
